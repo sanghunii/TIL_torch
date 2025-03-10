@@ -82,3 +82,51 @@ y2 = tensor.matmul(tensor.T)
 
 y3 = torch.rand_like(y1)
 torch.matmul(tensor, tensor.T, out=y3)
+print(f'{y1}\n{y2}\n{y3}')
+
+"""요소별 곱을 계산"""
+print('\n'*3)
+shape = (4,4)
+tensor = torch.ones_like(tensor, dtype=float)
+tensor[...,1] = 0
+
+"""@는 행렬곱(.matmul), *는 요소별 곱(element-wise product)"""
+test1 = tensor @ tensor.T
+test2 = tensor * tensor 
+print(f'{test1}\n{test2}')
+
+tensor = torch.rand_like(tensor, dtype=float)
+print(tensor)
+agg = tensor.sum()
+agg_item = agg.item()
+print(agg_item, type(agg_item))
+
+
+"""바꿔치기(in-place)연산 / pandas in-place연산 생각하면 쉬움"""
+print('\n\n', '-'*20, "in-place연산", '-'*20)
+print(f"{tensor}\n")
+tensor.add_(5)
+print(tensor)
+
+
+
+
+"""Numpy변환 (Bridge)
+이때 CPU상의 tensor와 NumPy배열은 메모리 공간을 공유하기 때문에, 하나를 변경하면 다른 하나도 변경된다."""
+t = torch.ones(5)
+print(f"t: {t}")
+n = t.numpy()
+print(f"n: {n}")
+print(f"t type : {type(t)} \n n type : {type(n)}")
+
+t.add_(1)
+print(f"t: {t}")
+print(f"n: {n}")
+
+"""Numpy 배열을 텐서로 변환하기"""
+n = np.ones(5)
+t = torch.from_numpy(n)
+
+np.add(n, 1, out=n)
+print(f"t : {t}")
+print(f"n : {n}")
